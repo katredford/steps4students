@@ -116,6 +116,29 @@ function generatePassword() {
     console.log(guaranteedCharacters)
   }
 //do 3 more if statments for each type of character
+  if (passOptions.upperOpt) {
+    possibleCharacters = possibleCharacters + uppercase;
+    var randomChar = Math.floor(Math.random() * uppercase.length);
+    var randomSpecialCharacter = uppercase[randomChar];
+    guaranteedCharacters = guaranteedCharacters + randomSpecialCharacter
+    console.log(guaranteedCharacters)
+  }
+
+  if (passOptions.lowOpt) {
+  possibleCharacters = possibleCharacters + lowercase;
+  var randomChar = Math.floor(Math.random() * lowercase.length);
+  var randomSpecialCharacter = lowercase[randomChar];
+  guaranteedCharacters = guaranteedCharacters + randomSpecialCharacter
+  console.log(guaranteedCharacters)
+  }
+
+    if (passOptions.numOpt) {
+  possibleCharacters = possibleCharacters + numbers;
+  var randomChar = Math.floor(Math.random() * numbers.length);
+  var randomSpecialCharacter = numbers[randomChar];
+  guaranteedCharacters = guaranteedCharacters + randomSpecialCharacter
+  console.log(guaranteedCharacters)
+}
   
   //Step 8: take the guaranteed characters and minus them from the passlenght the user gave us
   var remainingChars = passOptions.passOpt - guaranteedCharacters.length;
