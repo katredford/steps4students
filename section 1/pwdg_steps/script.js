@@ -96,16 +96,41 @@ function generatePassword() {
   if (passOptions.specOpt) {
     //add special characters to the array if the user chose it
     possibleCharacters = possibleCharacters + special;
+    //another way to do it
+    //possibleCharacters = possibleCharacters.concat(special)
+
     //console.log(possibleCharacters, "this is possibleCharacters array");
 //step 4: get a random index from the array 
-    var randomSpec = Math.floor(Math.random() * special.length);
-    console.log(randomSpec)
-//step 6: use randomSpec on the special array to return the character at the random index
-    var randomSpecialCharacter = special[randomSpec];
-    console.log(randomSpec)
-    // guaranteedCharacters.push()
+    var randomChar = Math.floor(Math.random() * special.length);
+    //console.log(randomChar)
+//step 6: use randomChar on the special array to return the character at the random index
+    var randomSpecialCharacter = special[randomChar];
+    //console.log(randomSpecialCharacter)
+    
+//Step 4 and 6 alternate
+  // var character = special[Math.floor(Math.random() * special.length)];
+  // console.log(character, "the way i did it")
+    
+//Step 7: add random character to guaranteed characters array
+    guaranteedCharacters = guaranteedCharacters + randomSpecialCharacter
+    console.log(guaranteedCharacters)
   }
+//do 3 more if statments for each type of character
+  
+  //Step 8: take the guaranteed characters and minus them from the passlenght the user gave us
+  var remainingChars = passOptions.passOpt - guaranteedCharacters.length;
+  console.log(remainingChars)
 
+  //Step 9: declare final password variable, add guaranteed characters to it
+  var finalPassword = '';
+  finalPassword = finalPassword + guaranteedCharacters;
+  //console.log(finalPassword, "final password")
+  //Step 10: for loop that adds random characters to the final password
+  for (var i = 0; i < remainingChars; i++){
+    finalPassword += possibleCharacters[Math.floor(Math.random() * possibleCharacters.length)];
+    console.log(finalPassword)
+  }
+  return finalPassword
 }
 
 
