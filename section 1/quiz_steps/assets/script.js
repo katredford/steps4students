@@ -39,24 +39,39 @@ qTitle.textContent = questions[questionIndex].questionText
 // button1.textContent = questions[currentQuestion].answers[0]
 
 
-function nextQuestion() {
-  var currentQuestion = questions[questionIndex];
-  var answerGrid = document.getElementById("answer-buttons");
-  answerGrid.innerHTML = "";
+// function nextQuestion() {
+//   var currentQuestion = questions[questionIndex];
+//   var answerGrid = document.getElementById("answer-buttons");
+//   answerGrid.innerHTML = "";
 
- // var questionTitle = document.getElementById("question");
-  qTitle.textContent = currentQuestion.questionText;
-  currentQuestion.answers.forEach(function (answer) {
-    //1 Make the piece of html in js
-    var anwserButton = document.createElement("button");
-    //2 Dress that html up how u want!! give it text . class name ect...
-    // anwserButton.setAttribute("class", "btn choice-btn");
-    anwserButton.textContent = answer;
+//  // var questionTitle = document.getElementById("question");
+//   qTitle.textContent = currentQuestion.questionText;
+//   currentQuestion.answers.forEach(function (answer) {
+//     //1 Make the piece of html in js
+//     var anwserButton = document.createElement("button");
+//     //2 Dress that html up how u want!! give it text . class name ect...
+//     // anwserButton.setAttribute("class", "btn choice-btn");
+//     anwserButton.textContent = answer;
             
-    //3 Stick that shabang on the page!! .appendCHild or jquery .append()
-    answerGrid.appendChild(anwserButton);
+//     //3 Stick that shabang on the page!! .appendCHild or jquery .append()
+//     answerGrid.appendChild(anwserButton);
     
-  });
+//   });
+// }
+
+// nextQuestion();
+
+
+const element = document.getElementById("demo");
+
+
+function newFunction() {
+  console.log('its a function!')
+element.innerHTML += "Hello"
 }
 
-nextQuestion();
+//newFunction();
+
+
+
+setInterval(newFunction, 1000);

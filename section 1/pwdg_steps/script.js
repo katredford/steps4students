@@ -22,7 +22,7 @@ function passwordOptions() {
 
   // EXTRA STUFF IF YOU HAVE TIME
    // Conditional statement to check if password length is a number. Prompts end if this evaluates false
-  // if (Number.isNaN(length)) {
+  // if (isNaN(length)) {
   //   alert('Password length must be provided as a number');
   //   return null;
   //}
