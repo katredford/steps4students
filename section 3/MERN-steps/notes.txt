@@ -1,0 +1,165 @@
+//* STEP-1
+//! npm i in server folder
+//! npm run seed
+
+//! npm i apollo-server-express graphql
+
+//* STEP-2
+//# create folder called 'schemas' in server folder
+//# with three files called:
+typeDefs.js
+resolvers.js
+index.js
+
+//* STEP-3
+//? typeDefs must come before resolvers
+
+//* STEP-4
+//TODO add type query 
+const typeDefs = gql`
+
+   type Query {
+    helloWorld: String
+  }
+`;
+//TODO Remember that with GraphQL, we access our API through two 
+//TODO passages: queries and mutations. To define a query, you use the 
+//TODO type Query {} data type, which is built into GraphQL. From there, 
+//TODO you can define your different types of queries by naming them, 
+//TODO just as you would name a function in JavaScript. In our case, we 
+//TODO created a query named helloWorld. Not only that, we also explicitly
+//TODO specified that the type of data to be returned by this query will 
+//TODO be a string.
+
+//TODO All type definitions need to specify what type of data is expected
+//TODO in return, no matter what. GraphQL has built-in data types known
+//TODO as scalars. Scalars work similarly to how we defined data in 
+//TODO Mongoose using JavaScript's built-in types, but there are some 
+//TODO differences that we'll learn about as we go.
+
+//* STEP-5
+//! Now that we have our query set up, we need to set up the resolver that 
+//!will serve the response for the helloWorld query. Let's navigate to the 
+//!resolvers.js file and add the following code
+
+const resolvers = {
+  Query: {
+    helloWorld: () => {
+      return 'Hello world!';
+    }
+  }
+};
+
+module.exports = resolvers;
+
+//! These methods get the same name of the query or mutation they are resolvers
+//! for. This way, when we use the query helloWorld, this helloWorld() method will 
+//! execute and return the string "Hello world!".
+
+//* STEP-6
+//# add to the schemas index file:
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
+
+module.exports = { typeDefs, resolvers };
+
+//* STEP-7
+//? Lastly, let's get our Apollo server hooked into our existing Express.js server
+//?and set it up with our type definitions and resolvers. Let's navigate to server.js
+//?and update the file so the whole thing looks like the following code:
+
+// see server file
+
+//? While most of this code is familiar to us, and we can infer what's happening with
+//?our require() statements, let's take a moment to discuss the creation of the Apollo 
+//?server. With the new ApolloServer() function, we provide the type definitions and 
+//?resolvers so they know what our API looks like and how it resolves requests. There 
+//?are more parameters we could pass in, but these are the two we really need to get 
+//?started.
+
+//? We then connect our Apollo server to our Express.js server. This will create a 
+//? special /graphql endpoint for the Express.js server that will serve as the main 
+//? endpoint for accessing the entire API. That's not all—the /graphql endpoint also has
+//? a built-in testing tool we can use. Let's check it out!
+
+//? Start your server, but this time, use the following command:
+
+npm run watch
+//? open browser to http://localhost:3001/graphql to see playground
+
+//This is a script set up in the package.json file that uses the development dependency called nodemon, which is short for "Node monitor." What nodemon does is essentially the same as what the webpack development server does for Create React App: it listens for any file changes and restarts the server, allowing us to avoid having to constantly stop and start the server.
+
+//By just using the nodemon command, it implicitly looks for whatever file is listed under main in package.json, so make sure it's set to server.js or whatever your main file is for the application. Conversely, you can also change that watch script to be nodemon server.js to explicitly run the file.
+
+
+//* STEP-8
+//TODO run graphql
+//TODO Also take notice of the two tabs on the right called DOCS and SCHEMA. Click the 
+//TODO DOCS tab and you'll see that it knows exactly which queries we've defined and how they work. 
+//TODO Again, because of the explicit type definitions, our API has self-documented itself!
+
+//TODO Close the docs tab by clicking on the green tab name again. Let's run our helloWorld query
+//TODO to see how it works. In the left pane, add this query syntax:
+
+this is removed in final: 
+query {
+  helloWorld
+}
+
+//TODO Congratulations, you just executed your first GraphQL query! By executing this query, we got our 
+//TODO response in JSON format, just as we would with a REST API.
+
+//TODO Creating a GraphQL API isn't much different than building a REST API with Express.js routes and
+//TODO controllers. Instead of creating a bunch of endpoints to handle all of the different types of 
+//TODO requests, we consolidate them into one endpoint and provide more detailed information as to what
+//TODO the API is going to do for us.
+
+//* STEP-9
+
+//! Just like a GET request for /api/thoughts, we want to set up this query to retrieve an array of all 
+//! thought data from the database. Remember, though, that GraphQL demands that we explicitly define the 
+//! type of data that is returning. This was easy to do with helloWorld, as String is a built-in data type, 
+//! or scalar. With this, we need to return more complex data that has key/value pairs.
+
+//! Luckily, we can create our own custom types that define what we want to have returned from this query. 
+//! Let's first update the thought query to look like the following code:
+
+type Query {
+  thoughts: [Thought]
+}
+
+//* STEP-10
+//# in the typeDefs variable, above the type Query definition, add the following code:
+
+type Thought {
+  _id: ID
+  thoughtText: String
+  createdAt: String
+  username: String
+  reactionCount: Int
+}
+
+//# With this custom data type, we are able to instruct the thoughts query so that each 
+//# thought that returns can include _id, thoughtText, username, and reactionCount fields 
+//# with their respective GraphQL scalars. The new ones here, ID and Int, are indeed new 
+//# to us. ID is essentially the same as String except that it is looking for a unique 
+//# identifier; and Int is simply an integer.
+
+//* STEP-11
+//? remove the helloWorld query and update the resolver to look like the following code:
+
+const resolvers = {
+  Query: {
+    thoughts: async () => {
+      return Thought.find().sort({ createdAt: -1 });
+    }
+  }
+};
+
+
+//? Now when we query thoughts, we will perform a .find() method on the Thought model. We're
+//? also returning the thought data in descending order, as can be seen in the .sort() method 
+//? that we chained onto it. We don't have to worry about error handling here because Apollo 
+//? can infer if something goes wrong and will respond for us.
+
+//* STEP-12

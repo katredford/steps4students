@@ -1,0 +1,14 @@
+//? STEP-11
+const { User, Thought } = require('../models'); 
+
+//!STEP-5
+
+const resolvers = {
+  Query: {
+    thoughts: async () => {
+      return Thought.find().sort({ createdAt: -1 });
+    }
+  }
+};
+
+module.exports = resolvers;
