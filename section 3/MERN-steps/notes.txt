@@ -163,3 +163,21 @@ const resolvers = {
 //? can infer if something goes wrong and will respond for us.
 
 //* STEP-12
+21.1.5
+
+username: "Rahsaan16"
+thought(_id: "63027a886bd7450a4e13fa9f"
+
+{
+  "username": "tester2",
+  "password": "test12345",
+  "email": "test2@test.com"
+}
+
+{
+  
+  "password": "test12345",
+  "email": "test2@test.com"
+}
+
+21.3.4 out of 21.6.8 total
